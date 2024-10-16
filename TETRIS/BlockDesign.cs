@@ -9,10 +9,12 @@ namespace TETRIS
     public class BlockDesign
     {
         private Label[,] grids; //儲存傳入的grids陣列
+        private bool[,] signs;
 
-        public BlockDesign(Label[,] grids)
+        public BlockDesign(Label[,] grids, bool[,] signs)
         {
             this.grids = grids;
+            this.signs = signs;
         }
 
         public void DrawBlock(int i, int j, int type)//i是直的, j是橫的, I, O, L, J, S, Z, T
@@ -20,80 +22,82 @@ namespace TETRIS
             switch (type)
             {
                 case 1://I-Green
-                    grids[i, j].BackColor = Color.White;
-                    grids[i + 1, j].BackColor = grids[i + 2, j].BackColor = grids[i + 3, j].BackColor = Color.Green; 
+                    signs[i , j] = signs[i + 1, j] = signs[i + 2, j] = signs[i + 3, j] = true;
+                    grids[i, j].BackColor = grids[i + 1, j].BackColor = grids[i + 2, j].BackColor = grids[i + 3, j].BackColor = Color.Green; 
                     break;
+
                 case 11://I-Spin
-                    grids[i, j].BackColor = Color.White;
-                    grids[i, j + 1].BackColor = grids[i, j + 2].BackColor = grids[i, j + 3].BackColor = Color.Green; 
+                    signs[i, j] = signs[i, j + 1] = signs[i, j + 2] = signs[i, j + 3] = true;
+                    grids[i, j].BackColor = grids[i, j + 1].BackColor = grids[i, j + 2].BackColor = grids[i, j + 3].BackColor = Color.Green; 
                     break;
+
                 case 2://O-blue
-                    grids[i, j].BackColor = Color.White;
-                    grids[i + 1, j].BackColor = grids[i, j+1].BackColor = grids[i+1, j+1].BackColor = Color.Blue;
+                    signs[i, j] = signs[i+1, j] = signs[i, j+1] = signs[i+1, j+1] = true;
+                    grids[i, j].BackColor = grids[i + 1, j].BackColor = grids[i, j+1].BackColor = grids[i+1, j+1].BackColor = Color.Blue;
                     break;
                 case 3://Z-yellow
-                    grids[i, j].BackColor = Color.White;
-                    grids[i+1, j].BackColor = grids[i+1, j-1].BackColor = grids[i, j+1].BackColor = Color.Yellow;
+                    signs[i, j] = signs[i + 1, j] = signs[i + 1, j - 1] = signs[i, j + 1] = true;
+                    grids[i, j].BackColor = grids[i+1, j].BackColor = grids[i+1, j-1].BackColor = grids[i, j+1].BackColor = Color.Yellow;
                     break;
                 case 13://Z-spin
-                    grids[i, j].BackColor = Color.White;
-                    grids[i + 1, j].BackColor = grids[i , j + 1].BackColor = grids[i - 1, j + 1].BackColor = Color.Yellow;
+                    signs[i, j] = signs[i+1, j] = signs[i, j+1] = signs[i-1, j+1] = true;
+                    grids[i, j].BackColor = grids[i + 1, j].BackColor = grids[i , j + 1].BackColor = grids[i - 1, j + 1].BackColor = Color.Yellow;
                     break;
                 case 4://S-red
-                    grids[i, j].BackColor = Color.White;
-                    grids[i + 1, j].BackColor = grids[i + 1, j + 1].BackColor = grids[i, j - 1].BackColor = Color.Red;
+                    signs[i, j] = signs[i+1, j] = signs[i+1, j+1] = signs[i, j-1] = true;
+                    grids[i, j].BackColor = grids[i + 1, j].BackColor = grids[i + 1, j + 1].BackColor = grids[i, j - 1].BackColor = Color.Red;
                     break;
                 case 14://S-spin
-                    grids[i, j].BackColor = Color.White;
-                    grids[i + 1, j].BackColor = grids[i, j + 1].BackColor = grids[i - 1, j + 1].BackColor = Color.Red;
+                    signs[i, j] = signs[i+1, j] = signs[i, j+1] = signs[i-1, j+1] = true;
+                    grids[i, j].BackColor = grids[i + 1, j].BackColor = grids[i, j + 1].BackColor = grids[i - 1, j + 1].BackColor = Color.Red;
                     break;
                 case 5://J-Gray
-                    grids[i, j].BackColor = Color.White;
-                    grids[i + 1, j].BackColor = grids[i + 1, j - 1].BackColor = grids[i+1, j - 2].BackColor = Color.Gray;
+                    signs[i, j] = signs[i+1, j] = signs[i+1, j-1] = signs[i+1, j-2] = true;
+                    grids[i, j].BackColor = grids[i + 1, j].BackColor = grids[i + 1, j - 1].BackColor = grids[i+1, j - 2].BackColor = Color.Gray;
                     break;
                 case 15://J-Spin
-                    grids[i, j].BackColor = Color.White;
-                    grids[i , j+1].BackColor = grids[i + 1, j + 1].BackColor = grids[i+2, j + 1].BackColor = Color.Gray;
+                    signs[i, j] = signs[i, j+1] = signs[i+1, j+1] = signs[i+2, j+1] = true;
+                    grids[i, j].BackColor = grids[i , j+1].BackColor = grids[i + 1, j + 1].BackColor = grids[i+2, j + 1].BackColor = Color.Gray;
                     break;
                 case 25://J-Spin
-                    grids[i, j].BackColor = Color.White;
-                    grids[i-1, j].BackColor = grids[i - 1, j+1].BackColor = grids[i-1, j + 2].BackColor = Color.Gray;
+                    signs[i, j] = signs[i-1, j] = signs[i-1, j+1] = signs[i-1, j+2] = true;
+                    grids[i, j].BackColor = grids[i-1, j].BackColor = grids[i - 1, j+1].BackColor = grids[i-1, j + 2].BackColor = Color.Gray;
                     break;
                 case 35://J-Spin
-                    grids[i, j].BackColor = Color.White;
-                    grids[i, j-1].BackColor = grids[i-1, j-1].BackColor = grids[i - 2, j - 1].BackColor = Color.Gray;
+                    signs[i, j] = signs[i, j-1] = signs[i-1, j-1] = signs[i-2, j-1] = true;
+                    grids[i, j].BackColor = grids[i, j-1].BackColor = grids[i-1, j-1].BackColor = grids[i - 2, j - 1].BackColor = Color.Gray;
                     break;
                 case 6://L-Orange
-                    grids[i, j].BackColor = Color.White;
-                    grids[i + 1, j].BackColor = grids[i + 1, j + 1].BackColor = grids[i + 1, j + 2].BackColor = Color.Orange;
+                    signs[i, j] = signs[i+1, j] = signs[i+1, j+1] = signs[i+1, j+2] = true;
+                    grids[i, j].BackColor = grids[i + 1, j].BackColor = grids[i + 1, j + 1].BackColor = grids[i + 1, j + 2].BackColor = Color.Orange;
                     break;
                 case 16://L-Spin
-                    grids[i, j].BackColor = Color.White;
-                    grids[i, j - 1].BackColor = grids[i + 1, j - 1].BackColor = grids[i+2, j-1].BackColor = Color.Orange;
+                    signs[i, j] = signs[i, j-1] = signs[i+1, j-1] = signs[i+2, j-1] = true;
+                    grids[i, j].BackColor = grids[i, j - 1].BackColor = grids[i + 1, j - 1].BackColor = grids[i+2, j-1].BackColor = Color.Orange;
                     break;
                 case 26://L-Spin
-                    grids[i, j].BackColor = Color.White;
-                    grids[i-1, j].BackColor = grids[i - 1, j - 1].BackColor = grids[i - 1, j - 2].BackColor = Color.Orange;
+                    signs[i, j] = signs[i-1, j] = signs[i-1, j-1] = signs[i-1, j-2] = true;
+                    grids[i, j].BackColor = grids[i-1, j].BackColor = grids[i - 1, j - 1].BackColor = grids[i - 1, j - 2].BackColor = Color.Orange;
                     break;
                 case 36://L-Spin
-                    grids[i, j].BackColor = Color.White;
-                    grids[i, j + 1].BackColor = grids[i - 1, j + 1].BackColor = grids[i - 2, j + 1].BackColor = Color.Orange;
+                    signs[i, j] = signs[i, j+1] = signs[i-1, j+1] = signs[i-2, j+1] = true;
+                    grids[i, j].BackColor = grids[i, j + 1].BackColor = grids[i - 1, j + 1].BackColor = grids[i - 2, j + 1].BackColor = Color.Orange;
                     break;
                 case 7://T-Purple
-                    grids[i, j].BackColor = Color.White;
-                    grids[i + 1, j].BackColor = grids[i, j + 1].BackColor = grids[i, j - 1].BackColor = Color.Purple;
+                    signs[i, j] = signs[i+1, j] = signs[i, j+1] = signs[i, j-1] = true;
+                    grids[i, j].BackColor = grids[i + 1, j].BackColor = grids[i, j + 1].BackColor = grids[i, j - 1].BackColor = Color.Purple;
                     break;
                 case 17://T-Spin
-                    grids[i, j].BackColor = Color.White;
-                    grids[i + 1, j].BackColor = grids[i, j + 1].BackColor = grids[i-1, j].BackColor = Color.Purple;
+                    signs[i, j] = signs[i+1, j] = signs[i, j+1] = signs[i-1, j] = true;
+                    grids[i, j].BackColor = grids[i + 1, j].BackColor = grids[i, j + 1].BackColor = grids[i-1, j].BackColor = Color.Purple;
                     break;
                 case 27://T-Spin
-                    grids[i, j].BackColor = Color.White;
-                    grids[i - 1, j].BackColor = grids[i, j + 1].BackColor = grids[i, j-1].BackColor = Color.Purple;
+                    signs[i, j] = signs[i-1, j] = signs[i, j+1] = signs[i, j-1] = true;
+                    grids[i, j].BackColor = grids[i - 1, j].BackColor = grids[i, j + 1].BackColor = grids[i, j-1].BackColor = Color.Purple;
                     break;
                 case 37://T-Spin
-                    grids[i, j].BackColor = Color.White;
-                    grids[i + 1, j].BackColor = grids[i, j - 1].BackColor = grids[i - 1, j].BackColor = Color.Purple;
+                    signs[i, j] = signs[i+1, j] = signs[i, j-1] = signs[i-1, j] = true;
+                    grids[i, j].BackColor = grids[i + 1, j].BackColor = grids[i, j - 1].BackColor = grids[i - 1, j].BackColor = Color.Purple;
                     break;
 
             }
@@ -103,84 +107,90 @@ namespace TETRIS
         {
             switch (type)
             {
-                case 1://I-Green
-                    grids[i, j].BackColor = Color.Black;
-                    grids[i + 1, j].BackColor = grids[i + 2, j].BackColor = grids[i + 3, j].BackColor = Color.Black;
+                case 1://I-Black
+                    signs[i, j] = signs[i + 1, j] = signs[i + 2, j] = signs[i + 3, j] = false;
+                    grids[i, j].BackColor = grids[i + 1, j].BackColor = grids[i + 2, j].BackColor = grids[i + 3, j].BackColor = Color.Black;
                     break;
+
                 case 11://I-Spin
-                    grids[i, j].BackColor = Color.Black;
-                    grids[i, j + 1].BackColor = grids[i, j + 2].BackColor = grids[i, j + 3].BackColor = Color.Black;
+                    signs[i, j] = signs[i, j + 1] = signs[i, j + 2] = signs[i, j + 3] = false;
+                    grids[i, j].BackColor = grids[i, j + 1].BackColor = grids[i, j + 2].BackColor = grids[i, j + 3].BackColor = Color.Black;
                     break;
-                case 2://O-blue
-                    grids[i, j].BackColor = Color.Black;
-                    grids[i + 1, j].BackColor = grids[i, j + 1].BackColor = grids[i + 1, j + 1].BackColor = Color.Black;
+
+                case 2://O-Black
+                    signs[i, j] = signs[i + 1, j] = signs[i, j + 1] = signs[i + 1, j + 1] = false;
+                    grids[i, j].BackColor = grids[i + 1, j].BackColor = grids[i, j + 1].BackColor = grids[i + 1, j + 1].BackColor = Color.Black;
                     break;
-                case 3://Z-yellow
-                    grids[i, j].BackColor = Color.Black;
-                    grids[i + 1, j].BackColor = grids[i + 1, j - 1].BackColor = grids[i, j + 1].BackColor = Color.Black;
+                case 3://Z-Black
+                    signs[i, j] = signs[i + 1, j] = signs[i + 1, j - 1] = signs[i, j + 1] = false;
+                    grids[i, j].BackColor = grids[i + 1, j].BackColor = grids[i + 1, j - 1].BackColor = grids[i, j + 1].BackColor = Color.Black;
                     break;
                 case 13://Z-spin
-                    grids[i, j].BackColor = Color.Black;
-                    grids[i + 1, j].BackColor = grids[i, j + 1].BackColor = grids[i - 1, j + 1].BackColor = Color.Black;
+                    signs[i, j] = signs[i + 1, j] = signs[i, j + 1] = signs[i - 1, j + 1] = false;
+                    grids[i, j].BackColor = grids[i + 1, j].BackColor = grids[i, j + 1].BackColor = grids[i - 1, j + 1].BackColor = Color.Black;
                     break;
-                case 4://S-red
-                    grids[i, j].BackColor = Color.Black;
-                    grids[i + 1, j].BackColor = grids[i + 1, j + 1].BackColor = grids[i, j - 1].BackColor = Color.Black;
+                case 4://S-Black
+                    signs[i, j] = signs[i + 1, j] = signs[i + 1, j + 1] = signs[i, j - 1] = false;
+                    grids[i, j].BackColor = grids[i + 1, j].BackColor = grids[i + 1, j + 1].BackColor = grids[i, j - 1].BackColor = Color.Black;
                     break;
                 case 14://S-spin
-                    grids[i, j].BackColor = Color.Black;
-                    grids[i + 1, j].BackColor = grids[i, j + 1].BackColor = grids[i - 1, j + 1].BackColor = Color.Black;
+                    signs[i, j] = signs[i + 1, j] = signs[i, j + 1] = signs[i - 1, j + 1] = false;
+                    grids[i, j].BackColor = grids[i + 1, j].BackColor = grids[i, j + 1].BackColor = grids[i - 1, j + 1].BackColor = Color.Black;
                     break;
-                case 5://J-Gray
-                    grids[i, j].BackColor = Color.Black;
-                    grids[i + 1, j].BackColor = grids[i + 1, j - 1].BackColor = grids[i + 1, j - 2].BackColor = Color.Black;
+                case 5://J-Black
+                    signs[i, j] = signs[i + 1, j] = signs[i + 1, j - 1] = signs[i + 1, j - 2] = false;
+                    grids[i, j].BackColor = grids[i + 1, j].BackColor = grids[i + 1, j - 1].BackColor = grids[i + 1, j - 2].BackColor = Color.Black;
                     break;
                 case 15://J-Spin
-                    grids[i, j].BackColor = Color.Black;
-                    grids[i, j + 1].BackColor = grids[i + 1, j + 1].BackColor = grids[i + 2, j + 1].BackColor = Color.Black;
+                    signs[i, j] = signs[i, j + 1] = signs[i + 1, j + 1] = signs[i + 2, j + 1] = false;
+                    grids[i, j].BackColor = grids[i, j + 1].BackColor = grids[i + 1, j + 1].BackColor = grids[i + 2, j + 1].BackColor = Color.Black;
                     break;
                 case 25://J-Spin
-                    grids[i, j].BackColor = Color.Black;
-                    grids[i - 1, j].BackColor = grids[i - 1, j + 1].BackColor = grids[i - 1, j + 2].BackColor = Color.Black;
+                    signs[i, j] = signs[i - 1, j] = signs[i - 1, j + 1] = signs[i - 1, j + 2] = false;
+                    grids[i, j].BackColor = grids[i - 1, j].BackColor = grids[i - 1, j + 1].BackColor = grids[i - 1, j + 2].BackColor = Color.Black;
                     break;
                 case 35://J-Spin
-                    grids[i, j].BackColor = Color.Black;
-                    grids[i, j - 1].BackColor = grids[i - 1, j - 1].BackColor = grids[i - 2, j - 1].BackColor = Color.Black;
+                    signs[i, j] = signs[i, j - 1] = signs[i - 1, j - 1] = signs[i - 2, j - 1] = false;
+                    grids[i, j].BackColor = grids[i, j - 1].BackColor = grids[i - 1, j - 1].BackColor = grids[i - 2, j - 1].BackColor = Color.Black;
                     break;
-                case 6://L-Orange
-                    grids[i, j].BackColor = Color.Black;
-                    grids[i + 1, j].BackColor = grids[i + 1, j + 1].BackColor = grids[i + 1, j + 2].BackColor = Color.Black;
+                case 6://L-Black
+                    signs[i, j] = signs[i + 1, j] = signs[i + 1, j + 1] = signs[i + 1, j + 2] = false;
+                    grids[i, j].BackColor = grids[i + 1, j].BackColor = grids[i + 1, j + 1].BackColor = grids[i + 1, j + 2].BackColor = Color.Black;
                     break;
                 case 16://L-Spin
-                    grids[i, j].BackColor = Color.Black;
-                    grids[i, j - 1].BackColor = grids[i + 1, j - 1].BackColor = grids[i + 2, j - 1].BackColor = Color.Black;
+                    signs[i, j] = signs[i, j - 1] = signs[i + 1, j - 1] = signs[i + 2, j - 1] = false;
+                    grids[i, j].BackColor = grids[i, j - 1].BackColor = grids[i + 1, j - 1].BackColor = grids[i + 2, j - 1].BackColor = Color.Black;
                     break;
                 case 26://L-Spin
-                    grids[i, j].BackColor = Color.Black;
-                    grids[i - 1, j].BackColor = grids[i - 1, j - 1].BackColor = grids[i - 1, j - 2].BackColor = Color.Black;
+                    signs[i, j] = signs[i - 1, j] = signs[i - 1, j - 1] = signs[i - 1, j - 2] = false;
+                    grids[i, j].BackColor = grids[i - 1, j].BackColor = grids[i - 1, j - 1].BackColor = grids[i - 1, j - 2].BackColor = Color.Black;
                     break;
                 case 36://L-Spin
-                    grids[i, j].BackColor = Color.Black;
-                    grids[i, j + 1].BackColor = grids[i - 1, j + 1].BackColor = grids[i - 2, j + 1].BackColor = Color.Black;
+                    signs[i, j] = signs[i, j + 1] = signs[i - 1, j + 1] = signs[i - 2, j + 1] = false;
+                    grids[i, j].BackColor = grids[i, j + 1].BackColor = grids[i - 1, j + 1].BackColor = grids[i - 2, j + 1].BackColor = Color.Black;
                     break;
-                case 7://T-Purple
-                    grids[i, j].BackColor = Color.Black;
-                    grids[i + 1, j].BackColor = grids[i, j + 1].BackColor = grids[i, j - 1].BackColor = Color.Black;
+                case 7://T-Black
+                    signs[i, j] = signs[i + 1, j] = signs[i, j + 1] = signs[i, j - 1] = false;
+                    grids[i, j].BackColor = grids[i + 1, j].BackColor = grids[i, j + 1].BackColor = grids[i, j - 1].BackColor = Color.Black;
                     break;
                 case 17://T-Spin
-                    grids[i, j].BackColor = Color.Black;
-                    grids[i + 1, j].BackColor = grids[i, j + 1].BackColor = grids[i - 1, j].BackColor = Color.Black;
+                    signs[i, j] = signs[i + 1, j] = signs[i, j + 1] = signs[i - 1, j] = false;
+                    grids[i, j].BackColor = grids[i + 1, j].BackColor = grids[i, j + 1].BackColor = grids[i - 1, j].BackColor = Color.Black;
                     break;
                 case 27://T-Spin
-                    grids[i, j].BackColor = Color.Black;
-                    grids[i - 1, j].BackColor = grids[i, j + 1].BackColor = grids[i, j - 1].BackColor = Color.Black;
+                    signs[i, j] = signs[i - 1, j] = signs[i, j + 1] = signs[i, j - 1] = false;
+                    grids[i, j].BackColor = grids[i - 1, j].BackColor = grids[i, j + 1].BackColor = grids[i, j - 1].BackColor = Color.Black;
                     break;
                 case 37://T-Spin
-                    grids[i, j].BackColor = Color.Black;
-                    grids[i + 1, j].BackColor = grids[i, j - 1].BackColor = grids[i - 1, j].BackColor = Color.Black;
+                    signs[i, j] = signs[i + 1, j] = signs[i, j - 1] = signs[i - 1, j] = false;
+                    grids[i, j].BackColor = grids[i + 1, j].BackColor = grids[i, j - 1].BackColor = grids[i - 1, j].BackColor = Color.Black;
                     break;
 
             }
         }
+
+        
+
+
     }
 }
