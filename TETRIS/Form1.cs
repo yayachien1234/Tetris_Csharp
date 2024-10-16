@@ -13,9 +13,9 @@ namespace TETRIS
         {
             Label[,] grids = MapGenerate.GenerateMap(this); // 調用 MapGenerate 類別中的 GenerateMap 方法
             BlockDesign blockDesign = new BlockDesign(grids);
-            blockDesign.DrawBlock(5, 5, 11);
+            blockDesign.DrawBlock(5, 5, 37);
 
         }
     }
-    }
+    
 }
