@@ -25,10 +25,16 @@ namespace TETRIS
         {
             grids = MapGenerate.GenerateMap(this); // 調用 MapGenerate 類別中的 GenerateMap 方法
             blockDesign = new BlockDesign(grids, signs);
-
-            block_I = 15;
-            block_J = random.Next(4, 7);
-            block_Type = random.Next(1, 7);
+            for (int i = 0; i < signs.GetLength(0); i++)
+            {
+                for (int j = 0; j < signs.GetLength(1); j++)
+                {
+                    signs[i, j] = false;
+                }
+            }
+            block_I = 18;
+            block_J = random.Next(2, 8);
+            block_Type = random.Next(1, 8);
             blockDesign.DrawBlock(block_I, block_J, block_Type);
             InitializeTimer();
 
@@ -49,7 +55,7 @@ namespace TETRIS
         {
             timer.Interval = 1000;
             // 在這裡放置方塊自動下降的邏輯
-            if (block_I > 0)
+            if (CanNextBlock(block_I-1, block_J, block_Type))
             {
                 blockDesign.DrawBlack(block_I, block_J, block_Type);
                 block_I--;
@@ -93,7 +99,7 @@ namespace TETRIS
 
         private void MoveBlockLeft()
         {
-            if ( true )
+            if ( CanNextBlock(block_I, block_J-1, block_Type) )
             {
                 blockDesign.DrawBlack(block_I, block_J, block_Type);
                 block_J--;
@@ -103,7 +109,7 @@ namespace TETRIS
 
         private void MoveBlockRight()
         {
-            if ( true )
+            if (CanNextBlock(block_I, block_J + 1, block_Type))
             {
                 blockDesign.DrawBlack(block_I, block_J, block_Type);
                 block_J++;
@@ -124,99 +130,402 @@ namespace TETRIS
             switch (block_Type)
             {
                 case 1://I-Black
-                    blockDesign.DrawBlack(block_I, block_J, block_Type);
-                    block_Type = 11;
-                    blockDesign.DrawBlock(block_I, block_J, block_Type);
+                    if (CanNextBlock(block_I, block_J, 11))
+                    {
+                        blockDesign.DrawBlack(block_I, block_J, block_Type);
+                        block_Type = 11;
+                        blockDesign.DrawBlock(block_I, block_J, block_Type);
+                    }
+
                     break;
 
                 case 11://I-Spin
-                    blockDesign.DrawBlack(block_I, block_J, block_Type);
-                    block_Type = 1;
-                    blockDesign.DrawBlock(block_I, block_J, block_Type);
+                    if (CanNextBlock(block_I, block_J, 1))
+                    {
+                        blockDesign.DrawBlack(block_I, block_J, block_Type);
+                        block_Type = 1;
+                        blockDesign.DrawBlock(block_I, block_J, block_Type);
+                    }
                     break;
 
                 case 2://O-Black
                     break;
                 case 3://Z-Black
-                    blockDesign.DrawBlack(block_I, block_J, block_Type);
-                    block_Type = 13;
-                    blockDesign.DrawBlock(block_I, block_J, block_Type);
+                    if (CanNextBlock(block_I, block_J, 13))
+                    {
+                        blockDesign.DrawBlack(block_I, block_J, block_Type);
+                        block_Type = 13;
+                        blockDesign.DrawBlock(block_I, block_J, block_Type);
+                    }
                     break;
                 case 13://Z-spin
-                    blockDesign.DrawBlack(block_I, block_J, block_Type);
-                    block_Type = 3;
-                    blockDesign.DrawBlock(block_I, block_J, block_Type);
+                    if (CanNextBlock(block_I, block_J, 3))
+                    {
+                        blockDesign.DrawBlack(block_I, block_J, block_Type);
+                        block_Type = 3;
+                        blockDesign.DrawBlock(block_I, block_J, block_Type);
+                    }
                     break;
                 case 4://S-Black
-                    blockDesign.DrawBlack(block_I, block_J, block_Type);
-                    block_Type = 14;
-                    blockDesign.DrawBlock(block_I, block_J, block_Type);
+                    if (CanNextBlock(block_I, block_J, 14))
+                    {
+                        blockDesign.DrawBlack(block_I, block_J, block_Type);
+                        block_Type = 14;
+                        blockDesign.DrawBlock(block_I, block_J, block_Type);
+                    }
                     break;
                 case 14://S-spin
-                    blockDesign.DrawBlack(block_I, block_J, block_Type);
-                    block_Type = 14;
-                    blockDesign.DrawBlock(block_I, block_J, block_Type);
+                    if (CanNextBlock(block_I, block_J, 4))
+                    {
+                        blockDesign.DrawBlack(block_I, block_J, block_Type);
+                        block_Type = 4;
+                        blockDesign.DrawBlock(block_I, block_J, block_Type);
+                    }
                     break;
                 case 5://J-Black
-                    blockDesign.DrawBlack(block_I, block_J, block_Type);
-                    block_Type = 15;
-                    blockDesign.DrawBlock(block_I, block_J, block_Type);
+                    if (CanNextBlock(block_I, block_J, 15))
+                    {
+                        blockDesign.DrawBlack(block_I, block_J, block_Type);
+                        block_Type = 15;
+                        blockDesign.DrawBlock(block_I, block_J, block_Type);
+                    }
                     break;
                 case 15://J-Spin
-                    blockDesign.DrawBlack(block_I, block_J, block_Type);
-                    block_Type = 25;
-                    blockDesign.DrawBlock(block_I, block_J, block_Type);
+                    if (CanNextBlock(block_I, block_J, 25))
+                    {
+                        blockDesign.DrawBlack(block_I, block_J, block_Type);
+                        block_Type = 25;
+                        blockDesign.DrawBlock(block_I, block_J, block_Type);
+                    }
                     break;
                 case 25://J-Spin
-                    blockDesign.DrawBlack(block_I, block_J, block_Type);
-                    block_Type = 35;
-                    blockDesign.DrawBlock(block_I, block_J, block_Type);
+                    if (CanNextBlock(block_I, block_J, 35))
+                    {
+                        blockDesign.DrawBlack(block_I, block_J, block_Type);
+                        block_Type = 35;
+                        blockDesign.DrawBlock(block_I, block_J, block_Type);
+                    }
                     break;
                 case 35://J-Spin
-                    blockDesign.DrawBlack(block_I, block_J, block_Type);
-                    block_Type = 5;
-                    blockDesign.DrawBlock(block_I, block_J, block_Type);
+                    if (CanNextBlock(block_I, block_J, 5))
+                    {
+                        blockDesign.DrawBlack(block_I, block_J, block_Type);
+                        block_Type = 5;
+                        blockDesign.DrawBlock(block_I, block_J, block_Type);
+                    }
                     break;
                 case 6://L-Black
-                    blockDesign.DrawBlack(block_I, block_J, block_Type);
-                    block_Type = 16;
-                    blockDesign.DrawBlock(block_I, block_J, block_Type);
+                    if (CanNextBlock(block_I, block_J, 16))
+                    {
+                        blockDesign.DrawBlack(block_I, block_J, block_Type);
+                        block_Type = 16;
+                        blockDesign.DrawBlock(block_I, block_J, block_Type);
+                    }
                     break;
                 case 16://L-Spin
-                    blockDesign.DrawBlack(block_I, block_J, block_Type);
-                    block_Type = 26;
-                    blockDesign.DrawBlock(block_I, block_J, block_Type);
+                    if (CanNextBlock(block_I, block_J, 26))
+                    {
+                        blockDesign.DrawBlack(block_I, block_J, block_Type);
+                        block_Type = 26;
+                        blockDesign.DrawBlock(block_I, block_J, block_Type);
+                    }
                     break;
                 case 26://L-Spin
-                    blockDesign.DrawBlack(block_I, block_J, block_Type);
-                    block_Type = 36;
-                    blockDesign.DrawBlock(block_I, block_J, block_Type);
+                    if (CanNextBlock(block_I, block_J, 36))
+                    {
+                        blockDesign.DrawBlack(block_I, block_J, block_Type);
+                        block_Type = 36;
+                        blockDesign.DrawBlock(block_I, block_J, block_Type);
+                    }
                     break;
                 case 36://L-Spin
-                    blockDesign.DrawBlack(block_I, block_J, block_Type);
-                    block_Type = 6;
-                    blockDesign.DrawBlock(block_I, block_J, block_Type);
+                    if (CanNextBlock(block_I, block_J, 6))
+                    {
+                        blockDesign.DrawBlack(block_I, block_J, block_Type);
+                        block_Type = 6;
+                        blockDesign.DrawBlock(block_I, block_J, block_Type);
+                    }
                     break;
                 case 7://T-Black
-                    blockDesign.DrawBlack(block_I, block_J, block_Type);
-                    block_Type = 17;
-                    blockDesign.DrawBlock(block_I, block_J, block_Type);
+                    if (CanNextBlock(block_I, block_J, 17))
+                    {
+                        blockDesign.DrawBlack(block_I, block_J, block_Type);
+                        block_Type = 17;
+                        blockDesign.DrawBlock(block_I, block_J, block_Type);
+                    }
                     break;
                 case 17://T-Spin
-                    blockDesign.DrawBlack(block_I, block_J, block_Type);
-                    block_Type = 27;
-                    blockDesign.DrawBlock(block_I, block_J, block_Type);
+                    if (CanNextBlock(block_I, block_J, 27))
+                    {
+                        blockDesign.DrawBlack(block_I, block_J, block_Type);
+                        block_Type = 27;
+                        blockDesign.DrawBlock(block_I, block_J, block_Type);
+                    }
                     break;
                 case 27://T-Spin
-                    blockDesign.DrawBlack(block_I, block_J, block_Type);
-                    block_Type = 37;
-                    blockDesign.DrawBlock(block_I, block_J, block_Type);
+                    if (CanNextBlock(block_I, block_J, 37))
+                    {
+                        blockDesign.DrawBlack(block_I, block_J, block_Type);
+                        block_Type = 37;
+                        blockDesign.DrawBlock(block_I, block_J, block_Type);
+                    }
                     break;
                 case 37://T-Spin
-                    blockDesign.DrawBlack(block_I, block_J, block_Type);
-                    block_Type = 7;
-                    blockDesign.DrawBlock(block_I, block_J, block_Type);
+                    if (CanNextBlock(block_I, block_J, 7))
+                    {
+                        blockDesign.DrawBlack(block_I, block_J, block_Type);
+                        block_Type = 7;
+                        blockDesign.DrawBlock(block_I, block_J, block_Type);
+                    }
                     break;
+            }
+        }
+
+        private bool CanNextBlock(int i, int j, int type)
+        {
+            // 檢查 i, j 是否超出範圍
+            if (i < 0 || j < 0 || i >= 21 || j >= 10)
+            {
+                return false;
+            }
+            switch (type)
+            {
+                case 1:
+                    return true;
+                    break;
+
+                case 11:
+                    blockDesign.DrawBlack(block_I, block_J, block_Type);
+                    if ( j+3<=9 && signs[i, j] == false && signs[i, j + 1] == false && signs[i, j + 2] == false && signs[i, j + 3] ==false) { return true; }
+                    else 
+                    {
+                        blockDesign.DrawBlock(block_I, block_J, block_Type);
+                        return false; 
+                    }
+                    break;
+                case 2: // O-Block
+                    blockDesign.DrawBlack(block_I, block_J, block_Type);
+                    if (j+1<=9 && signs[i, j] == false && signs[i + 1, j] == false && signs[i, j + 1] == false && signs[i + 1, j + 1] == false)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        blockDesign.DrawBlock(block_I, block_J, block_Type);
+                        return false;
+                    }
+                    break;
+
+                case 3: // Z-Block
+                    blockDesign.DrawBlack(block_I, block_J, block_Type);
+                    if (j-1>=0 && j+1<=9 && signs[i, j] == false && signs[i + 1, j] == false && signs[i + 1, j - 1] == false && signs[i, j + 1] == false)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        blockDesign.DrawBlock(block_I, block_J, block_Type);
+                        return false;
+                    }
+                    break;
+
+                case 13: // Z-Block Spin
+                    blockDesign.DrawBlack(block_I, block_J, block_Type);
+                    if (i - 1 >= 0 && j + 1<=9 && signs[i, j] == false && signs[i + 1, j] == false && signs[i, j + 1] == false && signs[i - 1, j + 1] == false)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        blockDesign.DrawBlock(block_I, block_J, block_Type);
+                        return false;
+                    }
+                    break;
+
+                case 4: // S-Block
+                    blockDesign.DrawBlack(block_I, block_J, block_Type);
+                    if (j - 1 >= 0 && j + 1 <= 9 && signs[i, j] == false && signs[i + 1, j] == false && signs[i + 1, j + 1] == false && signs[i, j - 1] == false)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        blockDesign.DrawBlock(block_I, block_J, block_Type);
+                        return false;
+                    }
+                    break;
+
+                case 14: // S-Block Spin
+                    blockDesign.DrawBlack(block_I, block_J, block_Type);
+                    if (i-1>=0 && j + 1 <= 9 && signs[i, j] == false && signs[i + 1, j] == false && signs[i, j + 1] == false && signs[i - 1, j + 1] == false)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        blockDesign.DrawBlock(block_I, block_J, block_Type);
+                        return false;
+                    }
+                    break;
+
+                case 5: // J-Block
+                    blockDesign.DrawBlack(block_I, block_J, block_Type);
+                    if (j-2>=0 && signs[i, j] == false && signs[i + 1, j] == false && signs[i + 1, j - 1] == false && signs[i + 1, j - 2] == false)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        blockDesign.DrawBlock(block_I, block_J, block_Type);
+                        return false;
+                    }
+                    break;
+
+                case 15: // J-Block Spin (0 degrees)
+                    blockDesign.DrawBlack(block_I, block_J, block_Type);
+                    if (i - 1 >= 0 && j + 1 <= 9 && signs[i, j] == false && signs[i, j + 1] == false && signs[i + 1, j + 1] == false && signs[i + 2, j + 1] == false)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        blockDesign.DrawBlock(block_I, block_J, block_Type);
+                        return false;
+                    }
+                    break;
+
+                case 25: // J-Block Spin (90 degrees)
+                    blockDesign.DrawBlack(block_I, block_J, block_Type);
+                    if (i - 1 >= 0 && j + 3<=10 && signs[i, j] == false && signs[i - 1, j] == false && signs[i - 1, j + 1] == false && signs[i - 1, j + 2] == false)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        blockDesign.DrawBlock(block_I, block_J, block_Type);
+                        return false;
+                    }
+                    break;
+
+                case 35: // J-Block Spin (180 degrees)
+                    blockDesign.DrawBlack(block_I, block_J, block_Type);
+                    if (i - 2 >= 0 && j - 1>=0 && signs[i, j] == false && signs[i, j - 1] == false && signs[i - 1, j - 1] == false && signs[i - 2, j - 1] == false)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        blockDesign.DrawBlock(block_I, block_J, block_Type);
+                        return false;
+                    }
+                    break;
+
+                case 6: // L-Block
+                    blockDesign.DrawBlack(block_I, block_J, block_Type);
+                    if (j + 3 <= 10 && signs[i, j] == false && signs[i + 1, j] == false && signs[i + 1, j + 1] == false && signs[i + 1, j + 2] == false)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        blockDesign.DrawBlock(block_I, block_J, block_Type);
+                        return false;
+                    }
+                    break;
+
+                case 16: // L-Block Spin (0 degrees)
+                    blockDesign.DrawBlack(block_I, block_J, block_Type);
+                    if (j - 1 >= 0 && signs[i, j] == false && signs[i, j - 1] == false && signs[i + 1, j - 1] == false && signs[i + 2, j - 1] == false)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        blockDesign.DrawBlock(block_I, block_J, block_Type);
+                        return false;
+                    }
+                    break;
+
+                case 26: // L-Block Spin (90 degrees)
+                    blockDesign.DrawBlack(block_I, block_J, block_Type);
+                    if (i - 1 >= 0 && j - 2 >= 0 && signs[i, j] == false && signs[i - 1, j] == false && signs[i - 1, j - 1] == false && signs[i - 1, j - 2] == false)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        blockDesign.DrawBlock(block_I, block_J, block_Type);
+                        return false;
+                    }
+                    break;
+
+                case 36: // L-Block Spin (180 degrees)
+                    blockDesign.DrawBlack(block_I, block_J, block_Type);
+                    if (i - 2 >= 0 && j + 1 <= 9 && signs[i, j] == false && signs[i, j + 1] == false && signs[i - 1, j + 1] == false && signs[i - 2, j + 1] == false)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        blockDesign.DrawBlock(block_I, block_J, block_Type);
+                        return false;
+                    }
+                    break;
+
+                case 7: // T-Block
+                    blockDesign.DrawBlack(block_I, block_J, block_Type);
+                    if (j+1<=9 && signs[i, j] == false && signs[i + 1, j] == false && signs[i, j + 1] == false && signs[i, j - 1] == false)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        blockDesign.DrawBlock(block_I, block_J, block_Type);
+                        return false;
+                    }
+                    break;
+
+                case 17: // T-Block Spin (0 degrees)
+                    blockDesign.DrawBlack(block_I, block_J, block_Type);
+                    if (i - 1 >= 0 && j + 1 <= 9 && signs[i, j] == false && signs[i + 1, j] == false && signs[i, j + 1] == false && signs[i - 1, j] == false)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        blockDesign.DrawBlock(block_I, block_J, block_Type);
+                        return false;
+                    }
+                    break;
+
+                case 27: // T-Block Spin (90 degrees)
+                    blockDesign.DrawBlack(block_I, block_J, block_Type);
+                    if (i - 1 >= 0 && j + 1 <= 9 && signs[i, j] == false && signs[i - 1, j] == false && signs[i, j + 1] == false && signs[i, j - 1] == false)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        blockDesign.DrawBlock(block_I, block_J, block_Type);
+                        return false;
+                    }
+                    break;
+
+                case 37: // T-Block Spin (180 degrees)
+                    blockDesign.DrawBlack(block_I, block_J, block_Type);
+                    if (i - 1 >= 0 && signs[i, j] == false && signs[i + 1, j] == false && signs[i, j - 1] == false && signs[i - 1, j] == false)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        blockDesign.DrawBlock(block_I, block_J, block_Type);
+                        return false;
+                    }
+                    break;
+
+                default: 
+                    return false;
             }
         }
 
