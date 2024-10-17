@@ -64,6 +64,7 @@ namespace TETRIS
             }
             else
             {
+                CheckAndClearRows();
                 block_I = 18;
                 block_J = random.Next(2, 8);
                 block_Type = random.Next(1, 8);
@@ -128,7 +129,7 @@ namespace TETRIS
         {
             if ( true)
             {
-                timer.Interval = 250;
+                timer.Interval = 100;
             }
         }
 
@@ -343,7 +344,7 @@ namespace TETRIS
 
                 case 13: // Z-Block Spin
                     blockDesign.DrawBlack(block_I, block_J, block_Type);
-                    if (i - 1 >= 0 && j + 1<=9 && signs[i, j] == false && signs[i + 1, j] == false && signs[i, j + 1] == false && signs[i - 1, j + 1] == false)
+                    if (i - 1 >= 0 && j + 1<=9 && signs[i, j] == false && signs[i , j+1] == false && signs[i+1, j + 1] == false && signs[i - 1, j] == false)
                     {
                         return true;
                     }
@@ -395,7 +396,7 @@ namespace TETRIS
 
                 case 15: // J-Block Spin (0 degrees)
                     blockDesign.DrawBlack(block_I, block_J, block_Type);
-                    if (i - 1 >= 0 && j + 1 <= 9 && signs[i, j] == false && signs[i, j + 1] == false && signs[i + 1, j + 1] == false && signs[i + 2, j + 1] == false)
+                    if (i >= 0 && j + 1 <= 9 && signs[i, j] == false && signs[i, j + 1] == false && signs[i + 1, j + 1] == false && signs[i + 2, j + 1] == false)
                     {
                         return true;
                     }
@@ -408,7 +409,7 @@ namespace TETRIS
 
                 case 25: // J-Block Spin (90 degrees)
                     blockDesign.DrawBlack(block_I, block_J, block_Type);
-                    if (i - 1 >= 0 && j + 3<=10 && signs[i, j] == false && signs[i - 1, j] == false && signs[i - 1, j + 1] == false && signs[i - 1, j + 2] == false)
+                    if (i - 1 >= 0 && j + 2 <= 9 && signs[i, j] == false && signs[i - 1, j] == false && signs[i - 1, j + 1] == false && signs[i - 1, j + 2] == false)
                     {
                         return true;
                     }
@@ -486,7 +487,7 @@ namespace TETRIS
 
                 case 7: // T-Block
                     blockDesign.DrawBlack(block_I, block_J, block_Type);
-                    if (j+1<=9 && signs[i, j] == false && signs[i + 1, j] == false && signs[i, j + 1] == false && signs[i, j - 1] == false)
+                    if (j - 1 >= 0 && j + 1<=9 && signs[i, j] == false && signs[i + 1, j] == false && signs[i, j + 1] == false && signs[i, j - 1] == false)
                     {
                         return true;
                     }
@@ -512,7 +513,7 @@ namespace TETRIS
 
                 case 27: // T-Block Spin (90 degrees)
                     blockDesign.DrawBlack(block_I, block_J, block_Type);
-                    if (i - 1 >= 0 && j + 1 <= 9 && signs[i, j] == false && signs[i - 1, j] == false && signs[i, j + 1] == false && signs[i, j - 1] == false)
+                    if (i - 1 >= 0 && j + 1 <= 9 && j - 1 >= 0 && signs[i, j] == false && signs[i - 1, j] == false && signs[i, j + 1] == false && signs[i, j - 1] == false)
                     {
                         return true;
                     }
@@ -539,6 +540,59 @@ namespace TETRIS
                 default: 
                     return false;
             }
+        }
+
+        private void CheckAndClearRows()
+        {
+            for (int i = 0; i <= 21; i++)
+            {
+                bool isRowFull = true;
+
+                for (int j = 0; j <= 9; j++)
+                {
+                    if (!signs[i, j])
+                    {
+                        isRowFull = false;
+                        break;
+                    }
+                }//是否那一行都已經滿了
+
+                if (isRowFull)
+                {
+                    for (int j = 0; j < 10; j++)
+                    {
+                        signs[i, j] = false;
+                        grids[i, j].BackColor = Color.Black; // 假設黑色為空白格顏色
+                    }
+
+                    // 把上方的每一行向下移動一行
+                    for (int row = i; row < 21; row++)
+                    {
+                        for (int col = 0; col < 10 ; col++)
+                        {
+                            if (signs[row + 1, col]==true)
+                            {
+                                signs[row, col] = true;
+                            }
+                            else
+                            {
+                                signs[row, col] = false;
+                            }
+                            grids[row, col].BackColor = grids[row + 1, col].BackColor;
+                        }
+                    }
+
+                    // 清空最上方一行，因為它已向下移動
+                    for (int col = 0; col < 10; col++)
+                    {
+                        signs[21, col] = false;
+                        grids[21, col].BackColor = Color.Black; // 設置為空白色
+                    }
+                    CheckAndClearRows();
+                }
+
+            }
+
         }
 
     }

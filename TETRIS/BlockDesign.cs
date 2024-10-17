@@ -40,8 +40,8 @@ namespace TETRIS
                     grids[i, j].BackColor = grids[i+1, j].BackColor = grids[i+1, j-1].BackColor = grids[i, j+1].BackColor = Color.Yellow;
                     break;
                 case 13://Z-spin
-                    signs[i, j] = signs[i+1, j] = signs[i, j+1] = signs[i-1, j+1] = true;
-                    grids[i, j].BackColor = grids[i + 1, j].BackColor = grids[i , j + 1].BackColor = grids[i - 1, j + 1].BackColor = Color.Yellow;
+                    signs[i, j] = signs[i, j+1] = signs[i+1, j+1] = signs[i-1, j] = true;
+                    grids[i, j].BackColor = grids[i, j + 1].BackColor = grids[i + 1, j + 1].BackColor = grids[i - 1, j].BackColor = Color.Yellow;
                     break;
                 case 4://S-red
                     signs[i, j] = signs[i+1, j] = signs[i+1, j+1] = signs[i, j-1] = true;
@@ -126,8 +126,8 @@ namespace TETRIS
                     grids[i, j].BackColor = grids[i + 1, j].BackColor = grids[i + 1, j - 1].BackColor = grids[i, j + 1].BackColor = Color.Black;
                     break;
                 case 13://Z-spin
-                    signs[i, j] = signs[i + 1, j] = signs[i, j + 1] = signs[i - 1, j + 1] = false;
-                    grids[i, j].BackColor = grids[i + 1, j].BackColor = grids[i, j + 1].BackColor = grids[i - 1, j + 1].BackColor = Color.Black;
+                    signs[i, j] = signs[i, j+1] = signs[i + 1, j + 1] = signs[i - 1, j] = false;
+                    grids[i, j].BackColor = grids[i, j+1].BackColor = grids[i + 1, j + 1].BackColor = grids[i - 1, j].BackColor = Color.Black;
                     break;
                 case 4://S-Black
                     signs[i, j] = signs[i + 1, j] = signs[i + 1, j + 1] = signs[i, j - 1] = false;
