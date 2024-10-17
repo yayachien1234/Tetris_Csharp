@@ -62,6 +62,13 @@ namespace TETRIS
                 blockDesign.DrawBlock(block_I, block_J, block_Type);
                 Console.WriteLine("Timer ticked - move block down");
             }
+            else
+            {
+                block_I = 18;
+                block_J = random.Next(2, 8);
+                block_Type = random.Next(1, 8);
+                blockDesign.DrawBlock(block_I, block_J, block_Type);
+            }
 
         }
         //timer.stop;
@@ -291,8 +298,13 @@ namespace TETRIS
             switch (type)
             {
                 case 1:
-                    return true;
-                    break;
+                    blockDesign.DrawBlack(block_I, block_J, block_Type);
+                    if (j>=0 && signs[i, j] == false && signs[i+1, j] == false && signs[i+2, j] == false && signs[i+3, j] == false) { return true; }
+                    else
+                    {
+                        blockDesign.DrawBlock(block_I, block_J, block_Type);
+                        return false;
+                    }
 
                 case 11:
                     blockDesign.DrawBlack(block_I, block_J, block_Type);
