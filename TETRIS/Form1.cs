@@ -74,7 +74,7 @@ namespace TETRIS
         }
         //timer.stop;
 
-        //控制方塊的左右移動
+        //控制鍵盤的輸入
         private void Form1_KeyDown(object? sender, KeyEventArgs e)
         {
             switch (e.KeyCode)
@@ -124,7 +124,7 @@ namespace TETRIS
                 blockDesign.DrawBlock(block_I, block_J, block_Type);
             }
         }
-
+        //按方向鍵下加速方塊掉落
         private void DropBlock()
         {
             if ( true)
@@ -541,7 +541,7 @@ namespace TETRIS
                     return false;
             }
         }
-
+        //檢查是否有可消除的行並執行消除
         private void CheckAndClearRows()
         {
             for (int i = 0; i <= 21; i++)
