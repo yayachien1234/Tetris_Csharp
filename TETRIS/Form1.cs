@@ -12,7 +12,9 @@ namespace TETRIS
         public int block_J = 0;
         public int block_Type = 0;
         public Random random = new Random();
-       
+        public int point = 0;
+        public Label pointText = new Label();
+
 
         public Form1()
         {
@@ -32,11 +34,9 @@ namespace TETRIS
                     signs[i, j] = false;
                 }
             }
-            block_I = 18;
-            block_J = random.Next(2, 8);
-            block_Type = random.Next(1, 8);
-            blockDesign.DrawBlock(block_I, block_J, block_Type);
+            GenerateNewBlock();
             InitializeTimer();
+            InitializePointText();
 
         }
 
@@ -48,6 +48,19 @@ namespace TETRIS
             timer.Start(); // 啟動計時器
 
 
+        }
+        
+        private void InitializePointText()
+        {
+            // 設置屬性
+            pointText.Text = "分數："+point;
+            pointText.Font = new Font("Arial", 20, FontStyle.Bold);
+            pointText.ForeColor = Color.Black;
+            pointText.BackColor = Color.Transparent;
+            pointText.AutoSize = true; // 自動調整Label大小以適應文字
+            pointText.Location = new Point(0, 0); // 設定Label的位置
+            // 將Label加入到表單的控件集中
+            this.Controls.Add(pointText);
         }
 
         // 計時器的 Tick 事件處理函數
@@ -843,6 +856,8 @@ namespace TETRIS
 
                 if (isRowFull)
                 {
+                    point = point + 10;
+                    pointText.Text = "分數："+point;
                     for (int j = 0; j < 10; j++)
                     {
                         signs[i, j] = false;
