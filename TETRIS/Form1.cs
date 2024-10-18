@@ -4,20 +4,22 @@ namespace TETRIS
 {
     public partial class Form1 : Form
     {
-        public Label[,]? grids;
-        public Label[,]? hint;
-        public bool[,] signs = new bool[22, 10];
+        public Label[,]? grids; //控制地圖格子的顏色
+        public Label[,]? hint; //控制提示格子的顏色
+        public bool[,] signs = new bool[22, 10]; //紀錄地圖格子是否被占用
         public BlockDesign? blockDesign;
         public System.Windows.Forms.Timer? timer;
-        public int block_I = 0;
-        public int block_J = 0;
-        public int block_Type = 0;
-        public int new_block_Type = 0;
+        public int block_I = 0; //被控制方塊基準點座標Y
+        public int block_J = 0; //被控制方塊基準點座標X
+        public int block_Type = 0; //被控制方塊類型
+        public int new_block_Type = 0; //下一個生成的方塊類型
         public Random random = new Random();
-        public int point = 0;
-        public Label pointText = new Label();
-        public bool timerStatus = true;
-        public bool firstGenerate = true;
+        public int point = 0; //紀錄得到的分數
+        public Label pointText = new Label(); //分數的文字
+        public Label hintText = new Label(); //提示方塊的文字
+        public Label functionText = new Label(); //鍵盤功能的文字
+        public bool timerStatus = true; //紀錄timer的狀態
+        public bool firstGenerate = true; //紀錄是否為第一次生成方塊
 
 
         public Form1()
@@ -27,10 +29,11 @@ namespace TETRIS
             InitializeComponent();
         }  
 
+        //啟動應用時執行的
         public void Form1_Load(object sender, EventArgs e)
         {
             grids = MapGenerate.GenerateMap(this); // 調用 MapGenerate 類別中的 GenerateMap 方法
-            hint = MapGenerate.GenerateHint(this);
+            hint = MapGenerate.GenerateHint(this); // 調用 MapGenerate 類別中的 GenerateHint方法
             blockDesign = new BlockDesign(grids, signs, hint);
             for (int i = 0; i < signs.GetLength(0); i++)
             {
@@ -38,12 +41,16 @@ namespace TETRIS
                 {
                     signs[i, j] = false;
                 }
-            }
-            GenerateNewBlock();
+            } //預設所有格子都沒有被占用
+            GenerateNewBlock(); //生成第一個方塊
+            //初始化所有的timer跟text
             InitializeTimer();
             InitializePointText();
+            InitializeHintText();
+            InitializeFunctionText();
         }
 
+        //初始化timer
         private void InitializeTimer()
         {
             timer = new System.Windows.Forms.Timer();
@@ -53,7 +60,8 @@ namespace TETRIS
 
 
         }
-        
+
+        //初始化各個說明文字
         private void InitializePointText()
         {
             // 設置屬性
@@ -62,9 +70,33 @@ namespace TETRIS
             pointText.ForeColor = Color.Black;
             pointText.BackColor = Color.Transparent;
             pointText.AutoSize = true; // 自動調整Label大小以適應文字
-            pointText.Location = new Point(0, 0); // 設定Label的位置
+            pointText.Location = new Point(680, 100); // 設定Label的位置
             // 將Label加入到表單的控件集中
             this.Controls.Add(pointText);
+        }
+        private void InitializeFunctionText()
+        {
+            // 設置屬性
+            functionText.Text = " 按下 ← : 控制方塊向左 \n 按下 → : 控制方塊向右 \n 按下 ↑   : 旋轉方塊 \n 按下 ↓   : 加速方塊落下 \n 按下 P : 暫停/繼續";
+            functionText.Font = new Font("Arial", 20, FontStyle.Bold);
+            functionText.ForeColor = Color.Black;
+            functionText.BackColor = Color.Transparent;
+            functionText.AutoSize = true; // 自動調整Label大小以適應文字
+            functionText.Location = new Point(900, 400); // 設定Label的位置
+            // 將Label加入到表單的控件集中
+            this.Controls.Add(functionText);
+        }
+        private void InitializeHintText()
+        {
+            // 設置屬性
+            hintText.Text = "下一個方塊" ;
+            hintText.Font = new Font("Arial", 20, FontStyle.Bold);
+            hintText.ForeColor = Color.Black;
+            hintText.BackColor = Color.Transparent;
+            hintText.AutoSize = true; // 自動調整Label大小以適應文字
+            hintText.Location = new Point(1000, 150); // 設定Label的位置
+            // 將Label加入到表單的控件集中
+            this.Controls.Add(hintText);
         }
 
         // 計時器的 Tick 事件處理函數
@@ -85,8 +117,8 @@ namespace TETRIS
             }
 
         }
-        //timer.stop;
 
+        //執行生成新方塊的函數
         private void GenerateNewBlock()
         {
             CheckAndClearRows();
@@ -154,7 +186,7 @@ namespace TETRIS
             blockDesign.ClearHint();
             blockDesign.DrawHint(new_block_Type);
         }
-
+        //判斷新方塊是否有空間生成
         private bool CanNewBlock(int i, int j, int type)
         {
             switch (type)
@@ -384,7 +416,6 @@ namespace TETRIS
                     break;
             }
         }
-
         //控制鍵盤的輸入
         private void Form1_KeyDown(object? sender, KeyEventArgs e)
         {
@@ -428,7 +459,7 @@ namespace TETRIS
 
             }
         }
-
+        //按方向鍵左控制方塊向左
         private void MoveBlockLeft()
         {
             if ( CanNextBlock(block_I, block_J-1, block_Type) )
@@ -438,7 +469,7 @@ namespace TETRIS
                 blockDesign.DrawBlock(block_I, block_J, block_Type);
             }
         }
-
+        //按方向鍵右控制方塊向右
         private void MoveBlockRight()
         {
             if (CanNextBlock(block_I, block_J + 1, block_Type))
@@ -456,7 +487,7 @@ namespace TETRIS
                 timer.Interval = 100;
             }
         }
-
+        //按方向鍵上旋轉方塊
         private void RotateBlock()
         {
             switch (block_Type)
@@ -612,7 +643,7 @@ namespace TETRIS
                     break;
             }
         }
-
+        //判斷方塊的下一個動作是否可行(撞到方塊或是邊界)
         private bool CanNextBlock(int i, int j, int type)
         {
             // 檢查 i, j 是否超出範圍
@@ -772,7 +803,7 @@ namespace TETRIS
 
                 case 16: // L-Block Spin (0 degrees)
                     blockDesign.DrawBlack(block_I, block_J, block_Type);
-                    if (j - 1 >= 0 && signs[i, j] == false && signs[i, j - 1] == false && signs[i + 1, j - 1] == false && signs[i + 2, j - 1] == false)
+                    if (i + 2 <= 21 && j - 1 >= 0 && signs[i, j] == false && signs[i, j - 1] == false && signs[i + 1, j - 1] == false && signs[i + 2, j - 1] == false)
                     {
                         return true;
                     }

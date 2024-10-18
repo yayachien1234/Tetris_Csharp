@@ -19,7 +19,7 @@ namespace TETRIS
             this.signs = signs;
             this.hint = hint;
         }
-
+        //將方塊顯示在地圖上
         public void DrawBlock(int i, int j, int type)//i是直的, j是橫的, I, O, L, J, S, Z, T
         {
             switch (type)
@@ -105,7 +105,7 @@ namespace TETRIS
 
             }
         }
-
+        //讓方塊消失在地圖上
         public void DrawBlack(int i, int j, int type)//i是直的, j是橫的, I, O, L, J, S, Z, T
         {
             switch (type)
@@ -191,7 +191,7 @@ namespace TETRIS
 
             }
         }
-
+        //將方塊顯示在提示上
         public void DrawHint(int type)//i是直的, j是橫的, I, O, L, J, S, Z, T
         {
             switch (type)
@@ -226,7 +226,7 @@ namespace TETRIS
 
             }
         }
-
+        //清空提示欄
         public void ClearHint()
         {
             for (int i = 0; i < 4; i++)
