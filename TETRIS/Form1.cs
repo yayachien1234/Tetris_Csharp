@@ -14,6 +14,7 @@ namespace TETRIS
         public Random random = new Random();
         public int point = 0;
         public Label pointText = new Label();
+        public bool timerStatus = true;
 
 
         public Form1()
@@ -396,6 +397,19 @@ namespace TETRIS
                     // 空白鍵按下時的動作
                     //HardDropBlock();
                     break;
+                case Keys.P:
+                    if (timerStatus)
+                    {
+                        timer.Stop();
+                        timerStatus = false;
+                    }
+                    else
+                    {
+                        timer.Start();
+                        timerStatus = true;
+                    }
+                    break;
+
                 default:
                     break;
 
