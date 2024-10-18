@@ -5,16 +5,19 @@ namespace TETRIS
     public partial class Form1 : Form
     {
         public Label[,]? grids;
+        public Label[,]? hint;
         public bool[,] signs = new bool[22, 10];
         public BlockDesign? blockDesign;
         public System.Windows.Forms.Timer? timer;
         public int block_I = 0;
         public int block_J = 0;
         public int block_Type = 0;
+        public int new_block_Type = 0;
         public Random random = new Random();
         public int point = 0;
         public Label pointText = new Label();
         public bool timerStatus = true;
+        public bool firstGenerate = true;
 
 
         public Form1()
@@ -27,7 +30,8 @@ namespace TETRIS
         public void Form1_Load(object sender, EventArgs e)
         {
             grids = MapGenerate.GenerateMap(this); // 調用 MapGenerate 類別中的 GenerateMap 方法
-            blockDesign = new BlockDesign(grids, signs);
+            hint = MapGenerate.GenerateHint(this);
+            blockDesign = new BlockDesign(grids, signs, hint);
             for (int i = 0; i < signs.GetLength(0); i++)
             {
                 for (int j = 0; j < signs.GetLength(1); j++)
@@ -38,7 +42,6 @@ namespace TETRIS
             GenerateNewBlock();
             InitializeTimer();
             InitializePointText();
-
         }
 
         private void InitializeTimer()
@@ -87,9 +90,16 @@ namespace TETRIS
         private void GenerateNewBlock()
         {
             CheckAndClearRows();
-            //block_I = 18;
-            //block_J = random.Next(2, 8);
-            block_Type = random.Next(1, 8);
+            if (firstGenerate)
+            {
+                block_Type = random.Next(1, 8);
+                firstGenerate = false;
+            }
+            else
+            {
+                block_Type = new_block_Type;
+            }
+
             switch (block_Type)
             {
                 case 1:
@@ -140,6 +150,9 @@ namespace TETRIS
             {
                 blockDesign.DrawBlock(block_I, block_J, block_Type);
             }
+            new_block_Type = random.Next(1, 8);
+            blockDesign.ClearHint();
+            blockDesign.DrawHint(new_block_Type);
         }
 
         private bool CanNewBlock(int i, int j, int type)
